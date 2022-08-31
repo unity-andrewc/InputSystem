@@ -706,32 +706,32 @@ namespace UnityEngine.InputSystem
         // offset), a bit count for the size of the state of the control, and an associated index into m_ChildrenForEachControl
         // for the corresponding control.
         // NOTE: This contains *leaf* controls only.
-        internal uint[] m_StateOffsetToControlMap;
+        internal ulong[] m_StateOffsetToControlMap;
 
         // ATM we pack everything into 32 bits. Given we're operating on bit offsets and counts, this imposes some tight limits
         // on controls and their associated state memory. Should this turn out to be a problem, bump m_StateOffsetToControlMap
         // to a ulong[] and up the counts here to account for having 64 bits available instead of only 32.
         internal const int kControlIndexBits = 10; // 1024 controls max.
-        internal const int kStateOffsetBits = 13; // 1024 bytes max state size for entire device.
+        internal const int kStateOffsetBits = 14; // 2048 bytes max state size for entire device.
         internal const int kStateSizeBits = 9; // 64 bytes max for an individual leaf control.
 
-        internal static uint EncodeStateOffsetToControlMapEntry(uint controlIndex, uint stateOffsetInBits, uint stateSizeInBits)
+        internal static ulong EncodeStateOffsetToControlMapEntry(uint controlIndex, uint stateOffsetInBits, uint stateSizeInBits)
         {
-            Debug.Assert(kControlIndexBits < 32, $"Expected kControlIndexBits < 32, so we fit into the 32 bit wide bitmask");
-            Debug.Assert(kStateOffsetBits < 32, $"Expected kStateOffsetBits < 32, so we fit into the 32 bit wide bitmask");
-            Debug.Assert(kStateSizeBits < 32, $"Expected kStateSizeBits < 32, so we fit into the 32 bit wide bitmask");
+            Debug.Assert(kControlIndexBits < 64, $"Expected kControlIndexBits < 64, so we fit into the 64 bit wide bitmask");
+            Debug.Assert(kStateOffsetBits < 64, $"Expected kStateOffsetBits < 64, so we fit into the 64 bit wide bitmask");
+            Debug.Assert(kStateSizeBits < 64, $"Expected kStateSizeBits < 64, so we fit into the 64 bit wide bitmask");
             Debug.Assert(controlIndex < (1U << kControlIndexBits), "Control index beyond what is supported");
             Debug.Assert(stateOffsetInBits < (1U << kStateOffsetBits), "State offset beyond what is supported");
             Debug.Assert(stateSizeInBits < (1U << kStateSizeBits), "State size beyond what is supported");
             return stateOffsetInBits << (kControlIndexBits + kStateSizeBits) | stateSizeInBits << kControlIndexBits | controlIndex;
         }
 
-        internal static void DecodeStateOffsetToControlMapEntry(uint entry, out uint controlIndex,
+        internal static void DecodeStateOffsetToControlMapEntry(ulong entry, out uint controlIndex,
             out uint stateOffset, out uint stateSize)
         {
-            controlIndex = entry & (1U << kControlIndexBits) - 1;
-            stateOffset = entry >> (kControlIndexBits + kStateSizeBits);
-            stateSize = (entry >> kControlIndexBits) & (((1U << (kControlIndexBits + kStateSizeBits)) - 1) >> kControlIndexBits);
+            controlIndex = (uint)(entry & (ulong)((1U << kControlIndexBits) - 1));
+            stateOffset = (uint)(entry >> (kControlIndexBits + kStateSizeBits));
+            stateSize = (uint)(entry >> kControlIndexBits) & (((1U << (kControlIndexBits + kStateSizeBits)) - 1) >> kControlIndexBits);
         }
 
         // NOTE: We don't store processors in a combined array the same way we do for

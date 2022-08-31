@@ -1239,7 +1239,7 @@ namespace UnityEngine.InputSystem
         {
             private Enumerate m_Flags;
             private readonly InputDevice m_Device;
-            private readonly uint[] m_StateOffsetToControlIndex;
+            private readonly ulong[] m_StateOffsetToControlIndex;
             private readonly int m_StateOffsetToControlIndexLength;
             private readonly InputControl[] m_AllControls;
             private byte* m_DefaultState; // Already offset by device offset.
@@ -1890,7 +1890,7 @@ namespace UnityEngine.InputSystem
             }
 
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            public DeviceBuilder WithStateOffsetToControlIndexMap(uint[] map)
+            public DeviceBuilder WithStateOffsetToControlIndexMap(ulong[] map)
             {
                 device.m_StateOffsetToControlMap = map;
                 return this;

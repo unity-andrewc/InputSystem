@@ -172,11 +172,11 @@ namespace UnityEngine.InputSystem
             ctrlMouseradius.y = ctrlMouseradiusy;
 
             // State offset to control index map.
-            builder.WithStateOffsetToControlIndexMap(new uint[]
+            builder.WithStateOffsetToControlIndexMap(new ulong[]
             {
-                32781u, 16809998u, 33587217u, 33587218u, 33587219u, 50364431u, 50364432u, 50364436u, 67141655u, 67141656u
-                , 67141657u, 83918869u, 83918870u, 83918874u, 100664323u, 100664324u, 101188613u, 101712902u, 102237191u, 102761480u
-                , 117456908u, 134250505u, 167804955u, 184582172u, 201327627u
+                32781ul, 16809998ul, 33587217ul, 33587218ul, 33587219ul, 50364431ul, 50364432ul, 50364436ul, 67141655ul, 67141656ul
+                , 67141657ul, 83918869ul, 83918870ul, 83918874ul, 100664323ul, 100664324ul, 101188613ul, 101712902ul, 102237191ul, 102761480ul
+                , 117456908ul, 134250505ul, 167804955ul, 184582172ul, 201327627ul
             });
 
             builder.Finish();

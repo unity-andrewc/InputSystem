@@ -87,7 +87,7 @@ namespace UnityEngine.InputSystem.Layouts
         // overrides for the control at the given path.
         private Dictionary<string, InputControlLayout.ControlItem> m_ChildControlOverrides;
 
-        private List<uint> m_StateOffsetToControlMap;
+        private List<ulong> m_StateOffsetToControlMap;
 
         private StringBuilder m_StringBuilder;
 
@@ -888,7 +888,7 @@ namespace UnityEngine.InputSystem.Layouts
         private void FinalizeControlHierarchy()
         {
             if (m_StateOffsetToControlMap == null)
-                m_StateOffsetToControlMap = new List<uint>();
+                m_StateOffsetToControlMap = new List<ulong>();
 
             if (m_Device.allControls.Count > (1U << InputDevice.kControlIndexBits))
                 throw new NotSupportedException($"Device '{m_Device}' exceeds maximum supported control count of {1U << InputDevice.kControlIndexBits} (has {m_Device.allControls.Count} controls)");
